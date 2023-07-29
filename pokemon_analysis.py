@@ -42,6 +42,7 @@ highest_avg_hp_type2 = pokemon_df \
     .orderBy(col("avg(HP)").desc()) \
     .first()
 
+# Comparing highest average HP values for Type 1 and Type 2 to find the type with the highest average HP
 best_type = highest_avg_hp_type1["Type 1"] \
         if highest_avg_hp_type1["avg(HP)"] >= highest_avg_hp_type2["avg(HP)"] \
         else highest_avg_hp_type2["Type 2"]
