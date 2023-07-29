@@ -21,6 +21,7 @@ The Spark cluster will perform analysis tasks on the Pokemon dataset to answer t
 1. What are the top 5 strongest non-legendary monsters?
 2. Which Pokemon type has the highest average HP?
 3. Which is the most common special attack?
+
 The results of the analysis will be saved to the result.txt file in the current directory.
 
 
