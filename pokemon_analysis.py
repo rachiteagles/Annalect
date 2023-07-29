@@ -26,12 +26,18 @@ top_strongest_non_legendary = pokemon_df \
     .select(col("Name")) \
     .limit(5)
 
+result += "Top 5 strongest non-legendary Pokemon:"
+result += '\n'+', '.join([name["Name"] for name in top_strongest_non_legendary.collect()])+'\n'
+
 # Question 2 - Pokemon type with the highest average HP
 highest_avg_hp_type = pokemon_df \
     .groupBy("Type 1", "Type 2") \
     .avg("HP") \
     .orderBy(col("avg(HP)").desc()) \
     .first()
+
+result += "\nPokemon type with the highest average HP:"
+result += f'\nType 1 - {highest_avg_hp_type["Type 1"]}, Type 2 - {highest_avg_hp_type["Type 2"]} \n'
 
 # Question 3 - Most common special Attack
 most_common_special_attack = pokemon_df \
@@ -40,18 +46,13 @@ most_common_special_attack = pokemon_df \
     .orderBy(col("count").desc()) \
     .first()["Sp. Atk"]
 
-# Display the results
-
-result += "Top 5 strongest non-legendary Pokemon:"
-result += '\n'+', '.join([name["Name"] for name in top_strongest_non_legendary.collect()])+'\n'
-result += "\nPokemon type with the highest average HP:"
-result += f'\nType 1 - {highest_avg_hp_type["Type 1"]}, Type 2 - {highest_avg_hp_type["Type 2"]} \n'
 result += "\nMost common special Attack:\n"
 result += str(most_common_special_attack)
 
+# write the results in "results.txt" file
+
 with open('result.txt', 'w') as f:
     f.write(result)
-
 
 # Stop the SparkSession
 spark.stop()
