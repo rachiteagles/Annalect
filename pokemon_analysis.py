@@ -30,14 +30,24 @@ result += "Top 5 strongest non-legendary Pokemon:"
 result += '\n'+', '.join([name["Name"] for name in top_strongest_non_legendary.collect()])+'\n'
 
 # Question 2 - Pokemon type with the highest average HP
-highest_avg_hp_type = pokemon_df \
-    .groupBy("Type 1", "Type 2") \
+highest_avg_hp_type1 = pokemon_df \
+    .groupBy("Type 1") \
     .avg("HP") \
     .orderBy(col("avg(HP)").desc()) \
     .first()
 
+highest_avg_hp_type2 = pokemon_df \
+    .groupBy("Type 2") \
+    .avg("HP") \
+    .orderBy(col("avg(HP)").desc()) \
+    .first()
+
+best_type = highest_avg_hp_type1["Type 1"] \
+        if highest_avg_hp_type1["avg(HP)"] >= highest_avg_hp_type2["avg(HP)"] \
+        else highest_avg_hp_type2["Type 2"]
+
 result += "\nPokemon type with the highest average HP:"
-result += f'\nType 1 - {highest_avg_hp_type["Type 1"]}, Type 2 - {highest_avg_hp_type["Type 2"]} \n'
+result += f'\n{best_type}\n'
 
 # Question 3 - Most common special Attack
 most_common_special_attack = pokemon_df \
